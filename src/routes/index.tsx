@@ -1,26 +1,845 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import {
+  Bot,
+  Cpu,
+  Sparkles,
+  Layers,
+  ShieldCheck,
+  Globe2,
+  Gauge,
+  ArrowRight,
+  Zap,
+  Mail,
+  Twitter,
+  Linkedin,
+  Github,
+  Send,
+  MessageSquare,
+  Scissors,
+  Activity,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: QuorbitLanding,
+  head: () => ({
+    meta: [
+      { title: "Quorbit Labs — Intelligent AI. Precision CAD." },
+      {
+        name: "description",
+        content:
+          "Quorbit Labs unifies conversational AI, business intelligence and algorithmic CAD automation into one premium enterprise platform.",
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+const CYAN = "#00F0FF";
+const CORAL = "#FF5A36";
+
+/* -------------------- NAVBAR -------------------- */
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const links = ["Platform", "Solutions", "Pricing", "Docs", "Company"];
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 120, damping: 18 }}
+      className={`fixed left-1/2 top-4 z-50 -translate-x-1/2 transition-all duration-500 ${
+        scrolled ? "w-[88%] max-w-5xl" : "w-[94%] max-w-6xl"
+      }`}
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+      <div
+        className={`flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-5 backdrop-blur-md transition-all duration-500 ${
+          scrolled ? "py-2 shadow-[0_10px_40px_-10px_rgba(0,240,255,0.25)]" : "py-3"
+        }`}
+      >
+        <a href="#top" className="flex items-center gap-2">
+          <div className="relative h-8 w-8">
+            <div
+              className="absolute inset-0 rounded-lg"
+              style={{
+                background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`,
+                filter: "blur(6px)",
+                opacity: 0.7,
+              }}
+            />
+            <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
+              <span className="text-sm font-black text-white">Q</span>
+            </div>
+          </div>
+          <span className="text-sm font-bold tracking-[0.2em] text-white">
+            QUORBIT<span style={{ color: CYAN }}>·</span>LABS
+          </span>
+        </a>
+
+        <nav
+          className="hidden items-center gap-1 md:flex"
+          onMouseLeave={() => setHovered(null)}
+        >
+          {links.map((l) => (
+            <a
+              key={l}
+              href={`#${l.toLowerCase()}`}
+              onMouseEnter={() => setHovered(l)}
+              className="relative rounded-lg px-3 py-1.5 text-sm text-white/70 transition-colors hover:text-white"
+            >
+              {hovered === l && (
+                <motion.span
+                  layoutId="nav-pill"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  className="absolute inset-0 rounded-lg bg-white/10"
+                />
+              )}
+              <span className="relative">{l}</span>
+            </a>
+          ))}
+        </nav>
+
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="relative overflow-hidden rounded-xl px-4 py-2 text-sm font-semibold text-[#030712]"
+          style={{ backgroundColor: CYAN }}
+        >
+          <motion.span
+            className="absolute inset-0"
+            animate={{ boxShadow: [`0 0 0 0 ${CYAN}80`, `0 0 0 12px ${CYAN}00`] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+          />
+          <span className="relative">Request Demo</span>
+        </motion.button>
+      </div>
+    </motion.header>
+  );
+}
+
+/* -------------------- HERO -------------------- */
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
+
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 120, damping: 18 } },
+  };
+
+  return (
+    <section ref={ref} id="top" className="relative flex min-h-screen items-center justify-center overflow-hidden pt-32">
+      {/* Orbits */}
+      <motion.div style={{ y }} className="pointer-events-none absolute inset-0">
+        {[0, 1, 2, 3].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute left-1/2 top-1/2 rounded-full border border-white/5"
+            style={{
+              width: `${300 + i * 220}px`,
+              height: `${300 + i * 220}px`,
+              x: "-50%",
+              y: "-50%",
+              borderColor: i % 2 === 0 ? `${CYAN}15` : `${CORAL}12`,
+            }}
+            animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
+            transition={{ duration: 40 + i * 10, repeat: Infinity, ease: "linear" }}
+          >
+            <div
+              className="absolute h-2 w-2 rounded-full"
+              style={{
+                top: "-4px",
+                left: "50%",
+                background: i % 2 === 0 ? CYAN : CORAL,
+                boxShadow: `0 0 16px ${i % 2 === 0 ? CYAN : CORAL}`,
+              }}
+            />
+          </motion.div>
+        ))}
+        <div
+          className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30"
+          style={{ background: `radial-gradient(circle, ${CYAN}30, transparent 60%)` }}
+        />
+      </motion.div>
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 mx-auto max-w-5xl px-6 text-center"
+      >
+        <motion.div variants={item} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-white/70 backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5" style={{ color: CYAN }} />
+          Now in private beta — Q2 2026
+        </motion.div>
+
+        <motion.h1 variants={item} className="text-balance text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
+          Intelligent AI.{" "}
+          <span style={{ background: `linear-gradient(135deg, ${CYAN}, #7dd3fc)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            Precision CAD.
+          </span>
+          <br />
+          One Unified Platform.
+        </motion.h1>
+
+        <motion.p variants={item} className="mx-auto mt-6 max-w-2xl text-pretty text-lg text-white/60">
+          Quorbit Labs fuses conversational AI, autonomous business modules and algorithmic CAD
+          automation into a single enterprise operating system.
+        </motion.p>
+
+        <motion.div variants={item} className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <motion.button
+            whileHover={{ scale: 1.04, boxShadow: `0 0 40px ${CYAN}80` }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#030712]"
+            style={{ backgroundColor: CYAN, boxShadow: `0 0 24px ${CYAN}50` }}
+          >
+            Explore AI Suites
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.04, borderColor: CORAL, boxShadow: `0 0 30px ${CORAL}60` }}
+            whileTap={{ scale: 0.97 }}
+            className="group inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm"
+          >
+            Explore CAD Tools
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" style={{ color: CORAL }} />
+          </motion.button>
+        </motion.div>
+
+        <motion.div variants={item} className="mt-16 grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
+          {[
+            { v: "99.99%", l: "Uptime SLA" },
+            { v: "120ms", l: "Avg AI Latency" },
+            { v: "ISO 27001", l: "Certified" },
+          ].map((s) => (
+            <div key={s.l} className="text-center">
+              <div className="text-2xl font-bold text-white">{s.v}</div>
+              <div className="mt-1 text-xs uppercase tracking-wider text-white/40">{s.l}</div>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* -------------------- PRODUCT SUITE + SANDBOX -------------------- */
+type Mode = "ai" | "cad";
+
+function ProductSuite() {
+  const [mode, setMode] = useState<Mode>("ai");
+  const accent = mode === "ai" ? CYAN : CORAL;
+
+  const aiCards = [
+    {
+      icon: Bot,
+      title: "Conversational AI Chatbots",
+      desc: "Enterprise-grade multilingual agents trained on your data with sub-second responses.",
+    },
+    {
+      icon: Layers,
+      title: "AIMS Business Modules",
+      desc: "Autonomous Intelligence Management — finance, ops, HR, all orchestrated by AI.",
+    },
+  ];
+  const cadCards = [
+    {
+      icon: Cpu,
+      title: "AutoCAD Toolpath Optimization",
+      desc: "Cut machining cycles by up to 38% with adaptive feed-rate and trajectory planning.",
+    },
+    {
+      icon: Scissors,
+      title: "Algorithmic Nesting Engine",
+      desc: "Genetic-algorithm sheet nesting that maximizes material yield to 96%+.",
+    },
+  ];
+
+  const cards = mode === "ai" ? aiCards : cadCards;
+
+  return (
+    <section id="platform" className="relative px-6 py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl font-black tracking-tight text-white md:text-5xl"
+          >
+            The Core Engine
+          </motion.h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/60">
+            Two suites. One platform. Flip the switch to see how Quorbit adapts.
+          </p>
+        </div>
+
+        {/* Toggle */}
+        <div className="mb-12 flex justify-center">
+          <div className="relative flex rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur-md">
+            {(["ai", "cad"] as Mode[]).map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                className="relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors"
+                style={{ color: mode === m ? "#030712" : "rgba(255,255,255,0.7)" }}
+              >
+                {mode === m && (
+                  <motion.div
+                    layoutId="mode-pill"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 rounded-xl"
+                    style={{ backgroundColor: m === "ai" ? CYAN : CORAL }}
+                  />
+                )}
+                <span className="relative">
+                  {m === "ai" ? "AI Business Suite" : "CAD Automation Studio"}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Cards + Sandbox */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={mode}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.4 }}
+              className="grid grid-cols-1 gap-5"
+            >
+              {cards.map((c, i) => (
+                <motion.div
+                  key={c.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
+                  whileHover={{ y: -4 }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+                >
+                  <div
+                    className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
+                    style={{ background: accent }}
+                  />
+                  <div
+                    className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                    style={{ background: `${accent}20`, color: accent }}
+                  >
+                    <c.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">{c.title}</h3>
+                  <p className="mt-2 text-sm text-white/60">{c.desc}</p>
+                  <div
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold"
+                    style={{ color: accent }}
+                  >
+                    Learn more <ArrowRight className="h-3.5 w-3.5" />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Sandbox */}
+          <div className="relative h-[480px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent p-5 backdrop-blur-sm">
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs text-white/50">
+                <Activity className="h-3.5 w-3.5" style={{ color: accent }} />
+                Live Simulation Sandbox
+              </div>
+              <div className="flex gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-red-400/60" />
+                <span className="h-2 w-2 rounded-full bg-yellow-400/60" />
+                <span className="h-2 w-2 rounded-full bg-green-400/60" />
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {mode === "ai" ? (
+                <motion.div
+                  key="chat"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full"
+                >
+                  <ChatSandbox />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="cad"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="h-full"
+                >
+                  <CadSandbox />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------- CHAT SANDBOX -------------------- */
+const SCRIPT = [
+  { from: "user", text: "Forecast Q3 revenue for the EMEA region." },
+  { from: "bot", text: "Analyzing 18 months of pipeline data..." },
+  { from: "bot", text: "Projected Q3 EMEA revenue: €14.2M (+22.6% YoY). Confidence 94%." },
+  { from: "user", text: "Draft a summary for the board." },
+  { from: "bot", text: "Done. Generated 1-page brief with charts. Ready to send." },
+];
+
+function ChatSandbox() {
+  const [messages, setMessages] = useState<{ from: string; text: string }[]>([]);
+  const [typing, setTyping] = useState("");
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    if (idx >= SCRIPT.length) {
+      const t = setTimeout(() => {
+        setMessages([]);
+        setIdx(0);
+      }, 3500);
+      return () => clearTimeout(t);
+    }
+    const msg = SCRIPT[idx];
+    if (msg.from === "user") {
+      const t = setTimeout(() => {
+        setMessages((m) => [...m, msg]);
+        setIdx((i) => i + 1);
+      }, 800);
+      return () => clearTimeout(t);
+    }
+    // bot types
+    let i = 0;
+    setTyping("");
+    const interval = setInterval(() => {
+      i++;
+      setTyping(msg.text.slice(0, i));
+      if (i >= msg.text.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setMessages((m) => [...m, msg]);
+          setTyping("");
+          setIdx((x) => x + 1);
+        }, 400);
+      }
+    }, 22);
+    return () => clearInterval(interval);
+  }, [idx]);
+
+  return (
+    <div className="flex h-[calc(100%-2rem)] flex-col">
+      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+        <div
+          className="flex h-8 w-8 items-center justify-center rounded-lg"
+          style={{ background: `${CYAN}20`, color: CYAN }}
+        >
+          <MessageSquare className="h-4 w-4" />
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-white">Quorbit AI</div>
+          <div className="flex items-center gap-1 text-[10px] text-white/40">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-400" /> online
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-3 overflow-hidden py-4">
+        <AnimatePresence>
+          {messages.map((m, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 24 }}
+              className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}
+            >
+              <div
+                className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs ${
+                  m.from === "user"
+                    ? "bg-white/10 text-white"
+                    : "text-[#030712]"
+                }`}
+                style={m.from === "bot" ? { backgroundColor: CYAN } : {}}
+              >
+                {m.text}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        {typing && (
+          <div className="flex justify-start">
+            <div
+              className="max-w-[80%] rounded-2xl px-3.5 py-2 text-xs text-[#030712]"
+              style={{ backgroundColor: CYAN }}
+            >
+              {typing}
+              <span className="ml-0.5 inline-block h-3 w-0.5 animate-pulse bg-[#030712]" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
+        <input
+          disabled
+          placeholder="Ask Quorbit anything..."
+          className="flex-1 bg-transparent text-xs text-white/60 outline-none"
+        />
+        <Send className="h-4 w-4" style={{ color: CYAN }} />
+      </div>
     </div>
   );
 }
 
-function Index() {
-  return <PlaceholderIndex />;
+/* -------------------- CAD SANDBOX -------------------- */
+function CadSandbox() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const i = setInterval(() => setTick((t) => t + 1), 4200);
+    return () => clearInterval(i);
+  }, []);
+
+  const path =
+    "M 30 40 L 120 40 L 120 90 L 200 90 L 200 40 L 290 40 L 290 140 L 230 140 L 230 200 L 290 200 L 290 280 L 180 280 L 180 230 L 120 230 L 120 280 L 30 280 L 30 180 L 90 180 L 90 130 L 30 130 Z";
+
+  return (
+    <div className="relative h-[calc(100%-2rem)]">
+      <div className="absolute left-0 top-0 z-10 flex items-center gap-3 text-[10px] text-white/50">
+        <span className="flex items-center gap-1"><Zap className="h-3 w-3" style={{ color: CORAL }} />Toolpath</span>
+        <span>Yield: <span style={{ color: CORAL }}>96.3%</span></span>
+        <span>Cuts: 24</span>
+      </div>
+
+      <svg key={tick} viewBox="0 0 320 320" className="h-full w-full">
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+          </pattern>
+          <linearGradient id="laserGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={CORAL} />
+            <stop offset="100%" stopColor="#FFB199" />
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2.5" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
+        <rect width="320" height="320" fill="url(#grid)" />
+
+        {/* sheet outline */}
+        <rect x="20" y="20" width="280" height="280" fill="none" stroke="rgba(226,232,240,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+
+        {/* nested shapes */}
+        <path
+          d={path}
+          fill={`${CORAL}10`}
+          stroke="url(#laserGrad)"
+          strokeWidth="1.5"
+          filter="url(#glow)"
+        />
+
+        {/* animated cutting path */}
+        <motion.path
+          d={path}
+          fill="none"
+          stroke={CORAL}
+          strokeWidth="2.2"
+          filter="url(#glow)"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 3.8, ease: "linear" }}
+        />
+
+        {/* laser head */}
+        <motion.circle
+          r="4"
+          fill="#fff"
+          filter="url(#glow)"
+          initial={{ offsetDistance: "0%" }}
+          animate={{ offsetDistance: "100%" }}
+          transition={{ duration: 3.8, ease: "linear" }}
+          style={{ offsetPath: `path("${path}")` } as React.CSSProperties}
+        />
+      </svg>
+    </div>
+  );
+}
+
+/* -------------------- WHY US -------------------- */
+function WhyUs() {
+  const items = [
+    {
+      icon: ShieldCheck,
+      title: "Reliability",
+      desc: "Enterprise SLAs, redundant infrastructure across 12 regions, zero-trust security.",
+      tone: CYAN,
+      span: "md:col-span-1 md:row-span-2",
+    },
+    {
+      icon: Gauge,
+      title: "Algorithmic Scale",
+      desc: "Process billions of geometric operations and tokens per day without breaking a sweat.",
+      tone: CORAL,
+      span: "md:col-span-2",
+    },
+    {
+      icon: Globe2,
+      title: "Global Standards",
+      desc: "ISO 27001, SOC 2 Type II, GDPR — every layer audited.",
+      tone: CYAN,
+      span: "md:col-span-1",
+    },
+    {
+      icon: Sparkles,
+      title: "Composable by Design",
+      desc: "Mix AI and CAD modules through a single API surface. Build once, run anywhere.",
+      tone: CORAL,
+      span: "md:col-span-1",
+    },
+  ];
+
+  return (
+    <section id="solutions" className="px-6 py-32">
+      <div className="mx-auto max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center"
+        >
+          <h2 className="text-4xl font-black tracking-tight text-white md:text-5xl">
+            Why teams choose Quorbit
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/60">
+            Built for enterprises that refuse to compromise between intelligence and precision.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {items.map((it, i) => (
+            <motion.div
+              key={it.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.08, type: "spring", stiffness: 110, damping: 18 }}
+              whileHover={{ y: -6 }}
+              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm ${it.span}`}
+            >
+              <div
+                className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-20 blur-3xl transition-opacity group-hover:opacity-50"
+                style={{ background: it.tone }}
+              />
+              <div
+                className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                style={{ background: `${it.tone}20`, color: it.tone }}
+              >
+                <it.icon className="h-5 w-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white">{it.title}</h3>
+              <p className="mt-2 text-sm text-white/60">{it.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -------------------- CONTACT + FOOTER -------------------- */
+function ContactFooter() {
+  const [focus, setFocus] = useState<string | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", company: "", msg: "" });
+  const [sent, setSent] = useState(false);
+
+  const fields: { key: keyof typeof form; label: string; type?: string; full?: boolean }[] = [
+    { key: "name", label: "Full name" },
+    { key: "email", label: "Work email", type: "email" },
+    { key: "company", label: "Company", full: true },
+    { key: "msg", label: "How can we help?", full: true },
+  ];
+
+  return (
+    <footer id="company" className="relative px-6 pt-32">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div>
+            <h2 className="text-4xl font-black tracking-tight text-white md:text-5xl">
+              Let's build the<br />
+              <span style={{ background: `linear-gradient(135deg, ${CYAN}, ${CORAL})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                next decade together.
+              </span>
+            </h2>
+            <p className="mt-4 max-w-md text-white/60">
+              Tell us about your stack. We'll show you what an integrated AI + CAD platform looks like in production.
+            </p>
+            <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
+              <Mail className="h-4 w-4" style={{ color: CYAN }} />
+              hello@quorbitlabs.com
+            </div>
+          </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSent(true);
+              setTimeout(() => setSent(false), 2500);
+            }}
+            className="grid grid-cols-2 gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-md"
+          >
+            {fields.map((f) => (
+              <div key={f.key} className={`relative ${f.full ? "col-span-2" : "col-span-1"}`}>
+                <label className="mb-1.5 block text-[11px] uppercase tracking-wider text-white/40">
+                  {f.label}
+                </label>
+                <div className="relative">
+                  {f.key === "msg" ? (
+                    <textarea
+                      value={form.msg}
+                      onChange={(e) => setForm({ ...form, msg: e.target.value })}
+                      onFocus={() => setFocus(f.key)}
+                      onBlur={() => setFocus(null)}
+                      rows={3}
+                      className="w-full resize-none rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-white outline-none transition-colors"
+                    />
+                  ) : (
+                    <input
+                      type={f.type || "text"}
+                      value={form[f.key]}
+                      onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                      onFocus={() => setFocus(f.key)}
+                      onBlur={() => setFocus(null)}
+                      className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-white outline-none transition-colors"
+                    />
+                  )}
+                  <AnimatePresence>
+                    {focus === f.key && (
+                      <motion.div
+                        layoutId="focus-ring"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        className="pointer-events-none absolute inset-0 rounded-lg ring-2"
+                        style={{ boxShadow: `0 0 0 2px ${CYAN}, 0 0 20px ${CYAN}60` } as React.CSSProperties}
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            ))}
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className="col-span-2 mt-2 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-[#030712]"
+              style={{ backgroundColor: CYAN, boxShadow: `0 0 24px ${CYAN}50` }}
+            >
+              {sent ? "Message sent ✓" : (<>Request a demo <Send className="h-4 w-4" /></>)}
+            </motion.button>
+          </form>
+        </div>
+
+        {/* Footer columns */}
+        <div className="mt-24 grid grid-cols-2 gap-8 border-t border-white/10 pt-12 md:grid-cols-5">
+          <div className="col-span-2">
+            <div className="flex items-center gap-2">
+              <div className="relative h-8 w-8">
+                <div className="absolute inset-0 rounded-lg" style={{ background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`, filter: "blur(6px)", opacity: 0.7 }} />
+                <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
+                  <span className="text-sm font-black text-white">Q</span>
+                </div>
+              </div>
+              <span className="text-sm font-bold tracking-[0.2em] text-white">
+                QUORBIT<span style={{ color: CYAN }}>·</span>LABS
+              </span>
+            </div>
+            <p className="mt-4 max-w-sm text-sm text-white/50">
+              Engineering the unified intelligence layer for industrial and enterprise software.
+            </p>
+            <div className="mt-6 flex gap-3">
+              {[Twitter, Linkedin, Github].map((Icon, i) => (
+                <motion.a
+                  key={i}
+                  href="#"
+                  whileHover={{ y: -2, color: CYAN }}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-white/60"
+                >
+                  <Icon className="h-4 w-4" />
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          {[
+            { h: "Platform", l: ["AI Suite", "CAD Studio", "AIMS", "API"] },
+            { h: "Company", l: ["About", "Careers", "Press", "Contact"] },
+            { h: "Resources", l: ["Docs", "Changelog", "Status", "Security"] },
+          ].map((col) => (
+            <div key={col.h}>
+              <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/40">{col.h}</div>
+              <ul className="space-y-2">
+                {col.l.map((li) => (
+                  <li key={li}>
+                    <a href="#" className="text-sm text-white/70 transition-colors hover:text-white">{li}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/40 md:flex-row">
+          <div>© 2026 Quorbit Labs, Inc. All rights reserved.</div>
+          <div className="flex gap-4">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* -------------------- ROOT -------------------- */
+function QuorbitLanding() {
+  return (
+    <div
+      className="min-h-screen overflow-x-hidden text-white antialiased"
+      style={{
+        background: `linear-gradient(180deg, #030712 0%, #0B132B 50%, #030712 100%)`,
+        fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, sans-serif",
+      }}
+    >
+      <Navbar />
+      <Hero />
+      <ProductSuite />
+      <WhyUs />
+      <ContactFooter />
+    </div>
+  );
 }
