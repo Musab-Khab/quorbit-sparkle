@@ -19,7 +19,9 @@ import {
   MessageSquare,
   Scissors,
   Activity,
+  ExternalLink,
 } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   component: QuorbitLanding,
@@ -42,7 +44,7 @@ const CORAL = "#FF5A36";
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
-  const links = ["Platform", "Solutions", "Pricing", "Docs", "Company"];
+  const links = ["Platform", "Solutions", "Projects", "Company"];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -588,8 +590,217 @@ function CadSandbox() {
   );
 }
 
+/* -------------------- PROJECTS -------------------- */
+const PROJECTS = [
+  {
+    title: "KMC Karachi — Citizen Services Portal",
+    category: "Web Development",
+    desc: "Full-stack MERN portal digitizing public services and administrative workflows for the Karachi Metropolitan Corporation.",
+    stack: ["React", "Node.js", "MongoDB", "D3.js"],
+    metrics: ["+40% engagement", "60% faster data", "99.9% uptime"],
+    image: "https://m4softwares.com/14.jpg",
+    featured: true,
+    tone: CYAN,
+  },
+  {
+    title: "Healthcare Telemedicine App",
+    category: "Mobile Apps",
+    desc: "HIPAA-compliant telemedicine platform connecting patients with healthcare providers seamlessly.",
+    stack: ["React Native", "Firebase", "WebRTC", "Stripe"],
+    metrics: ["10K+ users", "4.8★ rating", "−50% wait time"],
+    image: "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=800",
+    featured: true,
+    tone: CORAL,
+  },
+  {
+    title: "ImmortalBoost — Gaming Services",
+    category: "Web Development",
+    desc: "High-converting platform for a professional gaming boost service with tiered offerings and secure global checkout.",
+    stack: ["React", "PHP", "JavaScript"],
+    metrics: ["Global checkout", "Tiered pricing", "Trust-first UX"],
+    image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800",
+    tone: CYAN,
+  },
+  {
+    title: "AI Conversational Chatbot",
+    category: "AI / ML",
+    desc: "NLP-driven chatbot automating customer support and handling complex queries with sub-second responses.",
+    stack: ["Python", "TensorFlow", "OpenAI API"],
+    metrics: ["24/7 support", "Multi-intent", "Continuous learning"],
+    image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+    featured: true,
+    tone: CORAL,
+  },
+  {
+    title: "Cloud Infrastructure Automation",
+    category: "Cloud Solutions",
+    desc: "Secure, highly-available AWS architecture with automated scaling, failover and real-time alerting.",
+    stack: ["EC2", "RDS", "VPC", "Auto Scaling", "Route 53"],
+    metrics: ["Zero-downtime", "Auto-scale", "IaC"],
+    image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800",
+    tone: CYAN,
+  },
+  {
+    title: "Crypto Analytics Dashboard",
+    category: "UI / UX Design",
+    desc: "Intuitive dashboard letting traders monitor portfolios, track trends and execute trades seamlessly.",
+    stack: ["Figma", "Data Viz", "Sass"],
+    metrics: ["Realtime feed", "Custom widgets", "Dark-first"],
+    image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
+    tone: CORAL,
+  },
+];
+
+const PROJECT_FILTERS = ["All", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
+
+function Projects() {
+  const [filter, setFilter] = useState("All");
+  const visible = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+
+  return (
+    <section id="projects" className="relative px-6 py-32">
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
+        >
+          <div>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
+              <Sparkles className="h-3 w-3" style={{ color: CYAN }} /> Featured Work
+            </div>
+            <h2 className="text-4xl font-black tracking-tight text-white md:text-5xl">
+              Projects we've shipped
+            </h2>
+            <p className="mt-3 max-w-xl text-white/60">
+              From civic platforms to AI chatbots — 10+ projects delivered across industries with a 98% success rate.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-6 md:flex md:gap-8">
+            {[
+              { v: "10+", l: "Projects" },
+              { v: "9+", l: "Clients" },
+              { v: "300%", l: "Avg ROI" },
+            ].map((s) => (
+              <div key={s.l}>
+                <div className="text-2xl font-bold text-white">{s.v}</div>
+                <div className="text-[11px] uppercase tracking-wider text-white/40">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Filters */}
+        <div className="mb-8 flex flex-wrap gap-2">
+          {PROJECT_FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className="relative rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium text-white/70 transition-colors hover:text-white"
+            >
+              {filter === f && (
+                <motion.span
+                  layoutId="filter-pill"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute inset-0 rounded-full"
+                  style={{ backgroundColor: CYAN }}
+                />
+              )}
+              <span className="relative" style={{ color: filter === f ? "#030712" : undefined }}>
+                {f}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <motion.div layout className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {visible.map((p, i) => (
+              <motion.article
+                layout
+                key={p.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ delay: i * 0.05, type: "spring", stiffness: 120, damping: 18 }}
+                whileHover={{ y: -6 }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm"
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <motion.img
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/40 to-transparent" />
+                  <div className="absolute left-3 top-3 flex gap-2">
+                    {p.featured && (
+                      <span
+                        className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#030712]"
+                        style={{ backgroundColor: p.tone }}
+                      >
+                        Featured
+                      </span>
+                    )}
+                    <span className="rounded-md bg-black/50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
+                      {p.category}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="text-lg font-bold text-white">{p.title}</h3>
+                  <p className="mt-2 text-sm text-white/60">{p.desc}</p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {p.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] text-white/60"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
+                    {p.metrics.map((m) => (
+                      <div key={m} className="text-center">
+                        <div className="text-[10px] font-medium text-white/70">{m}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a
+                    href="#"
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-colors"
+                    style={{ color: p.tone }}
+                  >
+                    View case study <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+
+                <div
+                  className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
+                  style={{ background: p.tone }}
+                />
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 /* -------------------- WHY US -------------------- */
 function WhyUs() {
+
   const items = [
     {
       icon: ShieldCheck,
@@ -838,7 +1049,9 @@ function QuorbitLanding() {
       <Navbar />
       <Hero />
       <ProductSuite />
+      <Projects />
       <WhyUs />
+
       <ContactFooter />
     </div>
   );
