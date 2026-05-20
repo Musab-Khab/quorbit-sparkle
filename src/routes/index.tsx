@@ -19,7 +19,9 @@ import {
   MessageSquare,
   Scissors,
   Activity,
+  ExternalLink,
 } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   component: QuorbitLanding,
