@@ -1049,7 +1049,9 @@ function QuorbitLanding() {
       <Navbar />
       <Hero />
       <ProductSuite />
+      <Projects />
       <WhyUs />
+
       <ContactFooter />
     </div>
   );
