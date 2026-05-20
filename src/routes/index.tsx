@@ -42,7 +42,7 @@ const CORAL = "#FF5A36";
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
-  const links = ["Platform", "Solutions", "Pricing", "Docs", "Company"];
+  const links = ["Platform", "Solutions", "Projects", "Company"];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
