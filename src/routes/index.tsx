@@ -273,7 +273,7 @@ function ProductSuite() {
   const cards = mode === "ai" ? aiCards : cadCards;
 
   return (
-    <section id="platform" className="relative px-6 py-32">
+    <section id="platform" style={{scrollMarginTop:"6rem"}} className="relative px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <motion.h2
@@ -591,7 +591,22 @@ function CadSandbox() {
 }
 
 /* -------------------- PROJECTS -------------------- */
-const PROJECTS = [
+type Project = {
+  title: string;
+  category: string;
+  desc: string;
+  stack: string[];
+  metrics: string[];
+  image: string;
+  featured?: boolean;
+  tone: string;
+  client?: string;
+  year?: string;
+  challenge?: string;
+  outcome?: string;
+};
+
+const PROJECTS: Project[] = [
   {
     title: "KMC Karachi — Citizen Services Portal",
     category: "Web Development",
@@ -601,6 +616,12 @@ const PROJECTS = [
     image: "https://m4softwares.com/14.jpg",
     featured: true,
     tone: CYAN,
+    client: "Karachi Metropolitan Corporation",
+    year: "2024",
+    challenge:
+      "Replace fragmented paper-based municipal workflows with a unified digital portal handling millions of citizen requests across 18 districts.",
+    outcome:
+      "Shipped a role-based dashboard with realtime D3 analytics, reducing average request resolution from 11 days to 4 and lifting citizen engagement by 40%.",
   },
   {
     title: "Healthcare Telemedicine App",
@@ -608,9 +629,15 @@ const PROJECTS = [
     desc: "HIPAA-compliant telemedicine platform connecting patients with healthcare providers seamlessly.",
     stack: ["React Native", "Firebase", "WebRTC", "Stripe"],
     metrics: ["10K+ users", "4.8★ rating", "−50% wait time"],
-    image: "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: true,
     tone: CORAL,
+    client: "Private Healthcare Network",
+    year: "2024",
+    challenge:
+      "Build a secure cross-platform consultation app with low-latency video, encrypted records, and integrated billing under strict HIPAA constraints.",
+    outcome:
+      "Launched on iOS + Android with end-to-end encrypted WebRTC, scaling to 10K+ active patients in the first quarter and a 4.8★ store rating.",
   },
   {
     title: "ImmortalBoost — Gaming Services",
@@ -618,8 +645,12 @@ const PROJECTS = [
     desc: "High-converting platform for a professional gaming boost service with tiered offerings and secure global checkout.",
     stack: ["React", "PHP", "JavaScript"],
     metrics: ["Global checkout", "Tiered pricing", "Trust-first UX"],
-    image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=1200",
     tone: CYAN,
+    client: "ImmortalBoost",
+    year: "2023",
+    challenge: "Convert a niche gaming-services audience with a checkout flow that builds trust across regions and currencies.",
+    outcome: "Rebuilt the storefront with a tiered pricing engine and Stripe-backed global checkout, doubling conversion within 8 weeks.",
   },
   {
     title: "AI Conversational Chatbot",
@@ -627,9 +658,13 @@ const PROJECTS = [
     desc: "NLP-driven chatbot automating customer support and handling complex queries with sub-second responses.",
     stack: ["Python", "TensorFlow", "OpenAI API"],
     metrics: ["24/7 support", "Multi-intent", "Continuous learning"],
-    image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200",
     featured: true,
     tone: CORAL,
+    client: "SaaS Customer-Success Team",
+    year: "2024",
+    challenge: "Cut a growing ticket backlog without sacrificing the empathetic tone of the in-house support team.",
+    outcome: "Deployed a multi-intent assistant that auto-resolves 62% of tickets and hands warm context to humans for the rest.",
   },
   {
     title: "Cloud Infrastructure Automation",
@@ -637,8 +672,12 @@ const PROJECTS = [
     desc: "Secure, highly-available AWS architecture with automated scaling, failover and real-time alerting.",
     stack: ["EC2", "RDS", "VPC", "Auto Scaling", "Route 53"],
     metrics: ["Zero-downtime", "Auto-scale", "IaC"],
-    image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=1200",
     tone: CYAN,
+    client: "Fintech Platform",
+    year: "2023",
+    challenge: "Migrate a monolithic stack to a fault-tolerant cloud topology without a single second of customer downtime.",
+    outcome: "Codified the entire stack as IaC with blue-green deploys, achieving zero-downtime cutover and 4× faster release cadence.",
   },
   {
     title: "Crypto Analytics Dashboard",
@@ -646,19 +685,172 @@ const PROJECTS = [
     desc: "Intuitive dashboard letting traders monitor portfolios, track trends and execute trades seamlessly.",
     stack: ["Figma", "Data Viz", "Sass"],
     metrics: ["Realtime feed", "Custom widgets", "Dark-first"],
-    image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=1200",
     tone: CORAL,
+    client: "Crypto Trading Startup",
+    year: "2024",
+    challenge: "Surface dense market data without overwhelming retail traders — fast scanning, calm hierarchy, custom layouts.",
+    outcome: "Designed a dark-first dashboard with composable widgets that lifted DAU 35% and shortened time-to-decision by 22%.",
   },
 ];
 
 const PROJECT_FILTERS = ["All", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
 
-function Projects() {
-  const [filter, setFilter] = useState("All");
-  const visible = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+/* -------------------- PROJECT MODAL -------------------- */
+function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!project) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [project, onClose]);
 
   return (
-    <section id="projects" className="relative px-6 py-32">
+    <AnimatePresence>
+      {project && (
+        <motion.div
+          className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-black/70 backdrop-blur-md"
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={project.title}
+            className="relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0B132B]"
+            initial={{ opacity: 0, y: 40, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 220, damping: 26 }}
+          >
+            <div className="relative h-56 shrink-0 overflow-hidden sm:h-72">
+              <motion.img
+                src={project.image}
+                alt={project.title}
+                className="h-full w-full object-cover"
+                initial={{ scale: 1.15 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] via-[#0B132B]/40 to-transparent" />
+              <button
+                onClick={onClose}
+                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-black/40 text-white/80 backdrop-blur transition hover:bg-black/70 hover:text-white"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+              <div className="absolute bottom-4 left-5 right-5 flex flex-wrap items-center gap-2">
+                <span
+                  className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#030712]"
+                  style={{ backgroundColor: project.tone }}
+                >
+                  {project.category}
+                </span>
+                {project.year && (
+                  <span className="rounded-md bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur">
+                    {project.year}
+                  </span>
+                )}
+                {project.client && (
+                  <span className="text-[11px] text-white/70">· {project.client}</span>
+                )}
+              </div>
+            </div>
+
+            <motion.div
+              className="flex-1 overflow-y-auto p-6 sm:p-8"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+              }}
+            >
+              {[
+                <h3 key="t" className="text-2xl font-black tracking-tight text-white sm:text-3xl">
+                  {project.title}
+                </h3>,
+                <p key="d" className="mt-3 text-sm leading-relaxed text-white/70">
+                  {project.desc}
+                </p>,
+                <div key="cha" className="mt-6 grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                    <div className="mb-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: project.tone }}>
+                      The Challenge
+                    </div>
+                    <p className="text-sm text-white/75">{project.challenge}</p>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                    <div className="mb-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: project.tone }}>
+                      The Outcome
+                    </div>
+                    <p className="text-sm text-white/75">{project.outcome}</p>
+                  </div>
+                </div>,
+                <div key="m" className="mt-6 grid grid-cols-3 gap-3">
+                  {project.metrics.map((m) => (
+                    <div key={m} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-center">
+                      <div className="text-sm font-bold text-white">{m}</div>
+                    </div>
+                  ))}
+                </div>,
+                <div key="s" className="mt-6">
+                  <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-white/50">Tech Stack</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/70"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>,
+              ].map((node, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 16 },
+                    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 180, damping: 22 } },
+                  }}
+                >
+                  {node}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Projects() {
+  const [filter, setFilter] = useState("All");
+  const [active, setActive] = useState<Project | null>(null);
+  const visible = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+
+  const counts: Record<string, number> = { All: PROJECTS.length };
+  PROJECT_FILTERS.slice(1).forEach((f) => {
+    counts[f] = PROJECTS.filter((p) => p.category === f).length;
+  });
+
+  return (
+    <section id="projects" className="relative scroll-mt-24 px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -693,30 +885,58 @@ function Projects() {
 
         {/* Filters */}
         <div className="mb-8 flex flex-wrap gap-2">
-          {PROJECT_FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className="relative rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium text-white/70 transition-colors hover:text-white"
-            >
-              {filter === f && (
-                <motion.span
-                  layoutId="filter-pill"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  className="absolute inset-0 rounded-full"
-                  style={{ backgroundColor: CYAN }}
-                />
-              )}
-              <span className="relative" style={{ color: filter === f ? "#030712" : undefined }}>
-                {f}
-              </span>
-            </button>
-          ))}
+          {PROJECT_FILTERS.map((f) => {
+            const isActive = filter === f;
+            return (
+              <motion.button
+                key={f}
+                onClick={() => setFilter(f)}
+                whileTap={{ scale: 0.94 }}
+                className="relative rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium text-white/70 transition-colors hover:text-white"
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="filter-pill"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: `linear-gradient(135deg, ${CYAN}, ${CORAL})`,
+                      boxShadow: `0 8px 24px -8px ${CYAN}66`,
+                    }}
+                  />
+                )}
+                <span
+                  className="relative inline-flex items-center gap-1.5"
+                  style={{ color: isActive ? "#030712" : undefined }}
+                >
+                  {f}
+                  <span
+                    className={`rounded-full px-1.5 py-px text-[9px] font-bold ${
+                      isActive ? "bg-[#030712]/15 text-[#030712]" : "bg-white/10 text-white/50"
+                    }`}
+                  >
+                    {counts[f]}
+                  </span>
+                </span>
+              </motion.button>
+            );
+          })}
         </div>
 
         {/* Grid */}
         <motion.div layout className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
+            {visible.length === 0 && (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="col-span-full rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center text-sm text-white/50"
+              >
+                No projects in this category yet.
+              </motion.div>
+            )}
             {visible.map((p, i) => (
               <motion.article
                 layout
@@ -726,7 +946,8 @@ function Projects() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.05, type: "spring", stiffness: 120, damping: 18 }}
                 whileHover={{ y: -6 }}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm"
+                onClick={() => setActive(p)}
+                className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm"
               >
                 <div className="relative h-48 overflow-hidden">
                   <motion.img
@@ -776,13 +997,17 @@ function Projects() {
                     ))}
                   </div>
 
-                  <a
-                    href="#"
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActive(p);
+                    }}
                     className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-colors"
                     style={{ color: p.tone }}
                   >
-                    View case study <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
+                    View case study <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </button>
                 </div>
 
                 <div
@@ -794,9 +1019,12 @@ function Projects() {
           </AnimatePresence>
         </motion.div>
       </div>
+
+      <ProjectModal project={active} onClose={() => setActive(null)} />
     </section>
   );
 }
+
 
 /* -------------------- WHY US -------------------- */
 function WhyUs() {
@@ -833,7 +1061,7 @@ function WhyUs() {
   ];
 
   return (
-    <section id="solutions" className="px-6 py-32">
+    <section id="solutions" style={{scrollMarginTop:"6rem"}} className="px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -894,7 +1122,7 @@ function ContactFooter() {
   ];
 
   return (
-    <footer id="company" className="relative px-6 pt-32">
+    <footer id="company" style={{scrollMarginTop:"6rem"}} className="relative px-6 pt-32">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
