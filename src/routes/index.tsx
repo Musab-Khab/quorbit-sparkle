@@ -1037,21 +1037,76 @@ function ContactFooter() {
 }
 
 /* -------------------- ROOT -------------------- */
+/* -------------------- SCROLL PROGRESS -------------------- */
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  return (
+    <motion.div
+      className="fixed left-0 right-0 top-0 z-[60] h-[2px] origin-left"
+      style={{
+        scaleX: scrollYProgress,
+        background: `linear-gradient(90deg, ${CYAN}, ${CORAL})`,
+        boxShadow: `0 0 12px ${CYAN}`,
+      }}
+    />
+  );
+}
+
+/* -------------------- CURSOR SPOTLIGHT -------------------- */
+function CursorSpotlight() {
+  const [pos, setPos] = useState({ x: -400, y: -400 });
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    setEnabled(true);
+    const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+  if (!enabled) return null;
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[55]"
+      animate={{
+        background: `radial-gradient(380px circle at ${pos.x}px ${pos.y}px, rgba(0,240,255,0.08), transparent 60%)`,
+      }}
+      transition={{ type: "tween", duration: 0.18, ease: "linear" }}
+    />
+  );
+}
+
+/* -------------------- GRAIN OVERLAY -------------------- */
+function GrainOverlay() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[45] opacity-[0.035] mix-blend-overlay"
+      style={{
+        backgroundImage:
+          "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+      }}
+    />
+  );
+}
+
 function QuorbitLanding() {
   return (
     <div
-      className="min-h-screen overflow-x-hidden text-white antialiased"
+      className="quorbit-root relative min-h-screen overflow-x-hidden text-white antialiased"
       style={{
         background: `linear-gradient(180deg, #030712 0%, #0B132B 50%, #030712 100%)`,
         fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, sans-serif",
       }}
     >
+      <ScrollProgress />
+      <CursorSpotlight />
+      <GrainOverlay />
       <Navbar />
       <Hero />
       <ProductSuite />
       <Projects />
       <WhyUs />
-
       <ContactFooter />
     </div>
   );
