@@ -144,8 +144,45 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--quorbit-cyan) 35%, transparent);
+    color: #ffffff;
+  }
+
+  .quorbit-root ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .quorbit-root ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .quorbit-root ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--quorbit-cyan), var(--quorbit-coral));
+    border-radius: 999px;
+    border: 2px solid #030712;
+  }
+  .quorbit-root ::-webkit-scrollbar-thumb:hover {
+    filter: brightness(1.2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
