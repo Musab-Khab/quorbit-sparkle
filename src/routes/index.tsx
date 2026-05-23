@@ -273,7 +273,7 @@ function ProductSuite() {
   const cards = mode === "ai" ? aiCards : cadCards;
 
   return (
-    <section id="platform" className="relative px-6 py-32">
+    <section id="platform" style={{scrollMarginTop:"6rem"}} className="relative px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <motion.h2
@@ -1061,7 +1061,7 @@ function WhyUs() {
   ];
 
   return (
-    <section id="solutions" className="px-6 py-32">
+    <section id="solutions" style={{scrollMarginTop:"6rem"}} className="px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1122,7 +1122,7 @@ function ContactFooter() {
   ];
 
   return (
-    <footer id="company" className="relative px-6 pt-32">
+    <footer id="company" style={{scrollMarginTop:"6rem"}} className="relative px-6 pt-32">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
