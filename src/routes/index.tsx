@@ -591,6 +591,15 @@ function CadSandbox() {
 }
 
 /* -------------------- PROJECTS -------------------- */
+type ProjectTier = {
+  name: string;
+  tagline: string;
+  setup: string;
+  monthly: string;
+  features: string[];
+  highlight?: boolean;
+};
+
 type Project = {
   title: string;
   category: string;
@@ -604,11 +613,98 @@ type Project = {
   year?: string;
   challenge?: string;
   outcome?: string;
+  tiers?: ProjectTier[];
 };
+
 
 const PROJECTS: Project[] = [
   {
+    title: "EduFlow — AI-Powered LMS & School Management",
+    category: "LMS / Education",
+    desc: "End-to-end cloud school management and learning platform — from admin operations to AI-graded assignments, plagiarism detection, and auto-generated lesson slides. Built on Next.js for speed, SEO, and scale.",
+    stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "Tailwind"],
+    metrics: ["Unlimited students", "AI grading", "Multi-portal"],
+    image: "https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    featured: true,
+    tone: CYAN,
+    client: "K-12 & Higher-Ed Institutions",
+    year: "2025",
+    challenge:
+      "Schools were juggling 6+ disconnected tools — attendance, fees, gradebooks, LMS, comms — with zero AI assistance for teachers drowning in lesson prep, grading, and plagiarism review.",
+    outcome:
+      "Shipped EduFlow as a modular Next.js platform with five tiered packages, role-based portals for admin, teachers, parents and students, and an optional AI layer that auto-generates slides, quizzes, and grades submissions with plagiarism checks.",
+    tiers: [
+      {
+        name: "Basic",
+        tagline: "Cloud school management essentials",
+        setup: "PKR 50,000 setup",
+        monthly: "PKR 10,000 / month",
+        features: [
+          "Cloud-based school management",
+          "Admin dashboard & user roles",
+          "Attendance, classes & timetables",
+          "Fees & basic reporting",
+          "Email + standard support",
+        ],
+      },
+      {
+        name: "Standard",
+        tagline: "Adds student portal, unlimited scale",
+        setup: "PKR 80,000 setup",
+        monthly: "PKR 20,000 / month",
+        features: [
+          "Everything in Basic",
+          "Dedicated student portal",
+          "Unlimited students & staff",
+          "Announcements & messaging",
+          "Advanced reporting (no AI)",
+        ],
+      },
+      {
+        name: "Elite",
+        tagline: "Full LMS + all role portals",
+        setup: "PKR 150,000 setup",
+        monthly: "PKR 70,000 / month",
+        features: [
+          "Admin, teacher, parent & student portals",
+          "Full CRUD across every module",
+          "Assignments, quizzes & submissions",
+          "Manual grading & gradebook",
+          "Course content & resources",
+        ],
+        highlight: true,
+      },
+      {
+        name: "Premium AI",
+        tagline: "Elite + full AI teaching layer",
+        setup: "PKR 220,000 setup",
+        monthly: "PKR 100,000 / month",
+        features: [
+          "Everything in Elite",
+          "AI plagiarism detection",
+          "AI quiz & assignment generation",
+          "AI auto-grading with feedback",
+          "AI slide generator for any topic",
+        ],
+      },
+      {
+        name: "Custom White-Label",
+        tagline: "Your brand, your AI LMS",
+        setup: "PKR 400,000 setup",
+        monthly: "PKR 100,000 / month",
+        features: [
+          "Fully custom AI-powered LMS",
+          "Your logo, name & domain",
+          "Tailored modules & workflows",
+          "Priority roadmap & SLA",
+          "Dedicated success engineer",
+        ],
+      },
+    ],
+  },
+  {
     title: "KMC Karachi — Citizen Services Portal",
+
     category: "Web Development",
     desc: "Full-stack MERN portal digitizing public services and administrative workflows for the Karachi Metropolitan Corporation.",
     stack: ["React", "Node.js", "MongoDB", "D3.js"],
@@ -694,7 +790,7 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const PROJECT_FILTERS = ["All", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
+const PROJECT_FILTERS = ["All", "LMS / Education", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
 
 /* -------------------- PROJECT MODAL -------------------- */
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
@@ -820,6 +916,61 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                     ))}
                   </div>
                 </div>,
+                ...(project.tiers
+                  ? [
+                      <div key="tiers" className="mt-8">
+                        <div className="mb-3 flex items-baseline justify-between">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-white/50">
+                            Packages
+                          </div>
+                          <div className="text-[10px] text-white/40">Pick the right fit for your school</div>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                          {project.tiers.map((t) => (
+                            <motion.div
+                              key={t.name}
+                              whileHover={{ y: -3 }}
+                              transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                              className={`relative rounded-2xl border p-4 ${
+                                t.highlight
+                                  ? "border-transparent bg-gradient-to-b from-white/[0.06] to-white/[0.02]"
+                                  : "border-white/10 bg-white/[0.03]"
+                              }`}
+                              style={
+                                t.highlight
+                                  ? { boxShadow: `0 0 0 1px ${project.tone}55, 0 18px 50px -20px ${project.tone}66` }
+                                  : undefined
+                              }
+                            >
+                              {t.highlight && (
+                                <span
+                                  className="absolute -top-2 right-3 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#030712]"
+                                  style={{ backgroundColor: project.tone }}
+                                >
+                                  Most Popular
+                                </span>
+                              )}
+                              <div className="text-sm font-bold text-white">{t.name}</div>
+                              <div className="mt-0.5 text-[11px] text-white/55">{t.tagline}</div>
+                              <div className="mt-3 space-y-0.5">
+                                <div className="text-[13px] font-semibold text-white">{t.setup}</div>
+                                <div className="text-[11px] text-white/60">{t.monthly} maintenance</div>
+                              </div>
+                              <ul className="mt-3 space-y-1.5">
+                                {t.features.map((f) => (
+                                  <li key={f} className="flex gap-2 text-[11px] leading-relaxed text-white/70">
+                                    <span style={{ color: project.tone }}>✓</span>
+                                    <span>{f}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>,
+                    ]
+                  : []),
+
               ].map((node, idx) => (
                 <motion.div
                   key={idx}
