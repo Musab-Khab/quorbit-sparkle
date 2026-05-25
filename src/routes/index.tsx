@@ -790,7 +790,7 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const PROJECT_FILTERS = ["All", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
+const PROJECT_FILTERS = ["All", "LMS / Education", "Web Development", "Mobile Apps", "AI / ML", "UI / UX Design", "Cloud Solutions"];
 
 /* -------------------- PROJECT MODAL -------------------- */
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
