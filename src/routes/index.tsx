@@ -916,6 +916,61 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                     ))}
                   </div>
                 </div>,
+                ...(project.tiers
+                  ? [
+                      <div key="tiers" className="mt-8">
+                        <div className="mb-3 flex items-baseline justify-between">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-white/50">
+                            Packages
+                          </div>
+                          <div className="text-[10px] text-white/40">Pick the right fit for your school</div>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                          {project.tiers.map((t) => (
+                            <motion.div
+                              key={t.name}
+                              whileHover={{ y: -3 }}
+                              transition={{ type: "spring", stiffness: 280, damping: 22 }}
+                              className={`relative rounded-2xl border p-4 ${
+                                t.highlight
+                                  ? "border-transparent bg-gradient-to-b from-white/[0.06] to-white/[0.02]"
+                                  : "border-white/10 bg-white/[0.03]"
+                              }`}
+                              style={
+                                t.highlight
+                                  ? { boxShadow: `0 0 0 1px ${project.tone}55, 0 18px 50px -20px ${project.tone}66` }
+                                  : undefined
+                              }
+                            >
+                              {t.highlight && (
+                                <span
+                                  className="absolute -top-2 right-3 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#030712]"
+                                  style={{ backgroundColor: project.tone }}
+                                >
+                                  Most Popular
+                                </span>
+                              )}
+                              <div className="text-sm font-bold text-white">{t.name}</div>
+                              <div className="mt-0.5 text-[11px] text-white/55">{t.tagline}</div>
+                              <div className="mt-3 space-y-0.5">
+                                <div className="text-[13px] font-semibold text-white">{t.setup}</div>
+                                <div className="text-[11px] text-white/60">{t.monthly} maintenance</div>
+                              </div>
+                              <ul className="mt-3 space-y-1.5">
+                                {t.features.map((f) => (
+                                  <li key={f} className="flex gap-2 text-[11px] leading-relaxed text-white/70">
+                                    <span style={{ color: project.tone }}>✓</span>
+                                    <span>{f}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>,
+                    ]
+                  : []),
+
               ].map((node, idx) => (
                 <motion.div
                   key={idx}
