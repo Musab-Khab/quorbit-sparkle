@@ -619,7 +619,92 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    title: "EduFlow — AI-Powered LMS & School Management",
+    category: "LMS / Education",
+    desc: "End-to-end cloud school management and learning platform — from admin operations to AI-graded assignments, plagiarism detection, and auto-generated lesson slides. Built on Next.js for speed, SEO, and scale.",
+    stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "OpenAI", "Tailwind"],
+    metrics: ["Unlimited students", "AI grading", "Multi-portal"],
+    image: "https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    featured: true,
+    tone: CYAN,
+    client: "K-12 & Higher-Ed Institutions",
+    year: "2025",
+    challenge:
+      "Schools were juggling 6+ disconnected tools — attendance, fees, gradebooks, LMS, comms — with zero AI assistance for teachers drowning in lesson prep, grading, and plagiarism review.",
+    outcome:
+      "Shipped EduFlow as a modular Next.js platform with five tiered packages, role-based portals for admin, teachers, parents and students, and an optional AI layer that auto-generates slides, quizzes, and grades submissions with plagiarism checks.",
+    tiers: [
+      {
+        name: "Basic",
+        tagline: "Cloud school management essentials",
+        setup: "PKR 50,000 setup",
+        monthly: "PKR 10,000 / month",
+        features: [
+          "Cloud-based school management",
+          "Admin dashboard & user roles",
+          "Attendance, classes & timetables",
+          "Fees & basic reporting",
+          "Email + standard support",
+        ],
+      },
+      {
+        name: "Standard",
+        tagline: "Adds student portal, unlimited scale",
+        setup: "PKR 80,000 setup",
+        monthly: "PKR 20,000 / month",
+        features: [
+          "Everything in Basic",
+          "Dedicated student portal",
+          "Unlimited students & staff",
+          "Announcements & messaging",
+          "Advanced reporting (no AI)",
+        ],
+      },
+      {
+        name: "Elite",
+        tagline: "Full LMS + all role portals",
+        setup: "PKR 150,000 setup",
+        monthly: "PKR 70,000 / month",
+        features: [
+          "Admin, teacher, parent & student portals",
+          "Full CRUD across every module",
+          "Assignments, quizzes & submissions",
+          "Manual grading & gradebook",
+          "Course content & resources",
+        ],
+        highlight: true,
+      },
+      {
+        name: "Premium AI",
+        tagline: "Elite + full AI teaching layer",
+        setup: "PKR 220,000 setup",
+        monthly: "PKR 100,000 / month",
+        features: [
+          "Everything in Elite",
+          "AI plagiarism detection",
+          "AI quiz & assignment generation",
+          "AI auto-grading with feedback",
+          "AI slide generator for any topic",
+        ],
+      },
+      {
+        name: "Custom White-Label",
+        tagline: "Your brand, your AI LMS",
+        setup: "PKR 400,000 setup",
+        monthly: "PKR 100,000 / month",
+        features: [
+          "Fully custom AI-powered LMS",
+          "Your logo, name & domain",
+          "Tailored modules & workflows",
+          "Priority roadmap & SLA",
+          "Dedicated success engineer",
+        ],
+      },
+    ],
+  },
+  {
     title: "KMC Karachi — Citizen Services Portal",
+
     category: "Web Development",
     desc: "Full-stack MERN portal digitizing public services and administrative workflows for the Karachi Metropolitan Corporation.",
     stack: ["React", "Node.js", "MongoDB", "D3.js"],
