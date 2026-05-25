@@ -591,6 +591,15 @@ function CadSandbox() {
 }
 
 /* -------------------- PROJECTS -------------------- */
+type ProjectTier = {
+  name: string;
+  tagline: string;
+  setup: string;
+  monthly: string;
+  features: string[];
+  highlight?: boolean;
+};
+
 type Project = {
   title: string;
   category: string;
@@ -604,7 +613,9 @@ type Project = {
   year?: string;
   challenge?: string;
   outcome?: string;
+  tiers?: ProjectTier[];
 };
+
 
 const PROJECTS: Project[] = [
   {
