@@ -15,6 +15,7 @@ import {
   Twitter,
   Linkedin,
   Github,
+  Instagram,
   Send,
   MessageSquare,
   Scissors,
