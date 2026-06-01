@@ -1289,7 +1289,7 @@ function ContactFooter() {
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
               <Mail className="h-4 w-4" style={{ color: CYAN }} />
-              hello@quorbitlabs.com
+              <a href="mailto:musabkhan703@gmail.com" className="transition-colors hover:text-white">musabkhan703@gmail.com</a>
             </div>
           </div>
 
