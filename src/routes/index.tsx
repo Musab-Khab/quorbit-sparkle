@@ -15,6 +15,7 @@ import {
   Twitter,
   Linkedin,
   Github,
+  Instagram,
   Send,
   MessageSquare,
   Scissors,
@@ -1288,7 +1289,7 @@ function ContactFooter() {
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
               <Mail className="h-4 w-4" style={{ color: CYAN }} />
-              hello@quorbitlabs.com
+              <a href="mailto:musabkhan703@gmail.com" className="transition-colors hover:text-white">musabkhan703@gmail.com</a>
             </div>
           </div>
 
@@ -1371,10 +1372,17 @@ function ContactFooter() {
               Engineering the unified intelligence layer for industrial and enterprise software.
             </p>
             <div className="mt-6 flex gap-3">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
+              {[
+                { Icon: Linkedin, href: "https://www.linkedin.com/feed/update/urn:li:activity:7365745698845220868" },
+                { Icon: Instagram, href: "https://www.instagram.com/qubit.labs_/" },
+                { Icon: Twitter, href: "#" },
+                { Icon: Github, href: "#" },
+              ].map(({ Icon, href }, i) => (
                 <motion.a
                   key={i}
-                  href="#"
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   whileHover={{ y: -2, color: CYAN }}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-white/60"
                 >
