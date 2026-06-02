@@ -1312,11 +1312,12 @@ function ContactFooter() {
         <div className="mt-24 grid grid-cols-2 gap-8 border-t border-white/10 pt-12 md:grid-cols-5">
           <div className="col-span-2">
             <div className="flex items-center gap-2">
-              <div className="relative h-8 w-8">
-                <div className="absolute inset-0 rounded-lg" style={{ background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`, filter: "blur(6px)", opacity: 0.7 }} />
-                <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
-                  <span className="text-sm font-black text-white">Q</span>
-                </div>
+              <div className="relative h-9 w-9">
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{ background: `radial-gradient(circle, ${CYAN}80, transparent 70%)`, filter: "blur(8px)" }}
+                />
+                <img src={quorbitLogo.url} alt="Quorbit Labs" className="relative h-9 w-9 rounded-md object-cover" />
               </div>
               <span className="text-sm font-bold tracking-[0.2em] text-white">
                 QUORBIT<span style={{ color: CYAN }}>·</span>LABS
