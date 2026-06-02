@@ -198,14 +198,14 @@ function Hero() {
         <motion.h1 variants={item} className="text-balance text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
           Intelligent AI.{" "}
           <span style={{ background: `linear-gradient(135deg, ${CYAN}, #7dd3fc)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Precision CAD.
+            Autonomous Modules.
           </span>
           <br />
           One Unified Platform.
         </motion.h1>
 
         <motion.p variants={item} className="mx-auto mt-6 max-w-2xl text-pretty text-lg text-white/60">
-          Quorbit Labs fuses conversational AI, autonomous business modules and algorithmic CAD
+          Quorbit Labs fuses conversational AI, autonomous business modules and intelligent
           automation into a single enterprise operating system.
         </motion.p>
 
@@ -224,7 +224,7 @@ function Hero() {
             whileTap={{ scale: 0.97 }}
             className="group inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm"
           >
-            Explore CAD Tools
+            View Projects
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" style={{ color: CORAL }} />
           </motion.button>
         </motion.div>
