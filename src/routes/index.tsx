@@ -1160,7 +1160,7 @@ function WhyUs() {
     {
       icon: Sparkles,
       title: "Composable by Design",
-      desc: "Mix AI and CAD modules through a single API surface. Build once, run anywhere.",
+      desc: "Mix AI, data and automation modules through a single API surface. Build once, run anywhere.",
       tone: CORAL,
       span: "md:col-span-1",
     },
