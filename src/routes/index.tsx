@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import quorbitLogo from "@/assets/quorbit-logo.asset.json";
 import {
   Bot,
-  Cpu,
   Sparkles,
   Layers,
   ShieldCheck,
@@ -17,8 +17,6 @@ import {
   Github,
   Instagram,
   Send,
-  MessageSquare,
-  Scissors,
   Activity,
   ExternalLink,
 } from "lucide-react";
@@ -28,11 +26,11 @@ export const Route = createFileRoute("/")({
   component: QuorbitLanding,
   head: () => ({
     meta: [
-      { title: "Quorbit Labs — Intelligent AI. Precision CAD." },
+      { title: "Quorbit Labs — Intelligent AI. Autonomous Modules." },
       {
         name: "description",
         content:
-          "Quorbit Labs unifies conversational AI, business intelligence and algorithmic CAD automation into one premium enterprise platform.",
+          "Quorbit Labs unifies conversational AI, business intelligence and autonomous modules into one premium enterprise platform.",
       },
     ],
   }),
@@ -67,20 +65,26 @@ function Navbar() {
           scrolled ? "py-2 shadow-[0_10px_40px_-10px_rgba(0,240,255,0.25)]" : "py-3"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2">
-          <div className="relative h-8 w-8">
+        <a href="#top" className="flex items-center gap-2.5">
+          <motion.div
+            className="relative h-9 w-9"
+            animate={{ rotate: [0, 0] }}
+            whileHover={{ rotate: 12, scale: 1.08 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
             <div
-              className="absolute inset-0 rounded-lg"
+              className="absolute inset-0 rounded-full"
               style={{
-                background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`,
-                filter: "blur(6px)",
-                opacity: 0.7,
+                background: `radial-gradient(circle, ${CYAN}80, transparent 70%)`,
+                filter: "blur(8px)",
               }}
             />
-            <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
-              <span className="text-sm font-black text-white">Q</span>
-            </div>
-          </div>
+            <img
+              src={quorbitLogo.url}
+              alt="Quorbit Labs"
+              className="relative h-9 w-9 rounded-md object-cover"
+            />
+          </motion.div>
           <span className="text-sm font-bold tracking-[0.2em] text-white">
             QUORBIT<span style={{ color: CYAN }}>·</span>LABS
           </span>
@@ -191,14 +195,14 @@ function Hero() {
         <motion.h1 variants={item} className="text-balance text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
           Intelligent AI.{" "}
           <span style={{ background: `linear-gradient(135deg, ${CYAN}, #7dd3fc)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Precision CAD.
+            Autonomous Modules.
           </span>
           <br />
           One Unified Platform.
         </motion.h1>
 
         <motion.p variants={item} className="mx-auto mt-6 max-w-2xl text-pretty text-lg text-white/60">
-          Quorbit Labs fuses conversational AI, autonomous business modules and algorithmic CAD
+          Quorbit Labs fuses conversational AI, autonomous business modules and intelligent
           automation into a single enterprise operating system.
         </motion.p>
 
@@ -217,7 +221,7 @@ function Hero() {
             whileTap={{ scale: 0.97 }}
             className="group inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm"
           >
-            Explore CAD Tools
+            View Projects
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" style={{ color: CORAL }} />
           </motion.button>
         </motion.div>
@@ -239,12 +243,9 @@ function Hero() {
   );
 }
 
-/* -------------------- PRODUCT SUITE + SANDBOX -------------------- */
-type Mode = "ai" | "cad";
-
+/* -------------------- PRODUCT SUITE + FLOATING DASHBOARD -------------------- */
 function ProductSuite() {
-  const [mode, setMode] = useState<Mode>("ai");
-  const accent = mode === "ai" ? CYAN : CORAL;
+  const accent = CYAN;
 
   const aiCards = [
     {
@@ -257,26 +258,17 @@ function ProductSuite() {
       title: "AIMS Business Modules",
       desc: "Autonomous Intelligence Management — finance, ops, HR, all orchestrated by AI.",
     },
-  ];
-  const cadCards = [
     {
-      icon: Cpu,
-      title: "AutoCAD Toolpath Optimization",
-      desc: "Cut machining cycles by up to 38% with adaptive feed-rate and trajectory planning.",
-    },
-    {
-      icon: Scissors,
-      title: "Algorithmic Nesting Engine",
-      desc: "Genetic-algorithm sheet nesting that maximizes material yield to 96%+.",
+      icon: Gauge,
+      title: "Real-time Insights Engine",
+      desc: "Live KPIs, anomaly detection and predictive scoring across every workflow.",
     },
   ];
-
-  const cards = mode === "ai" ? aiCards : cadCards;
 
   return (
-    <section id="platform" style={{scrollMarginTop:"6rem"}} className="relative px-6 py-32">
+    <section id="platform" style={{ scrollMarginTop: "6rem" }} className="relative px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
+        <div className="mb-16 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -286,310 +278,272 @@ function ProductSuite() {
             The Core Engine
           </motion.h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Two suites. One platform. Flip the switch to see how Quorbit adapts.
+            One AI-native control plane orchestrating every module of your business.
           </p>
         </div>
 
-        {/* Toggle */}
-        <div className="mb-12 flex justify-center">
-          <div className="relative flex rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur-md">
-            {(["ai", "cad"] as Mode[]).map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className="relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors"
-                style={{ color: mode === m ? "#030712" : "rgba(255,255,255,0.7)" }}
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+          {/* Feature cards */}
+          <div className="grid grid-cols-1 gap-5">
+            {aiCards.map((c, i) => (
+              <motion.div
+                key={c.title}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 110, damping: 18 }}
+                whileHover={{ y: -4 }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
               >
-                {mode === m && (
-                  <motion.div
-                    layoutId="mode-pill"
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    className="absolute inset-0 rounded-xl"
-                    style={{ backgroundColor: m === "ai" ? CYAN : CORAL }}
-                  />
-                )}
-                <span className="relative">
-                  {m === "ai" ? "AI Business Suite" : "CAD Automation Studio"}
-                </span>
-              </button>
+                <div
+                  className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
+                  style={{ background: accent }}
+                />
+                <div
+                  className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{ background: `${accent}20`, color: accent }}
+                >
+                  <c.icon className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-bold text-white">{c.title}</h3>
+                <p className="mt-2 text-sm text-white/60">{c.desc}</p>
+              </motion.div>
             ))}
           </div>
-        </div>
 
-        {/* Cards + Sandbox */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={mode}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.4 }}
-              className="grid grid-cols-1 gap-5"
-            >
-              {cards.map((c, i) => (
-                <motion.div
-                  key={c.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
-                  whileHover={{ y: -4 }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
-                >
-                  <div
-                    className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
-                    style={{ background: accent }}
-                  />
-                  <div
-                    className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
-                    style={{ background: `${accent}20`, color: accent }}
-                  >
-                    <c.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white">{c.title}</h3>
-                  <p className="mt-2 text-sm text-white/60">{c.desc}</p>
-                  <div
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold"
-                    style={{ color: accent }}
-                  >
-                    Learn more <ArrowRight className="h-3.5 w-3.5" />
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Sandbox */}
-          <div className="relative h-[480px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent p-5 backdrop-blur-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-white/50">
-                <Activity className="h-3.5 w-3.5" style={{ color: accent }} />
-                Live Simulation Sandbox
-              </div>
-              <div className="flex gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-red-400/60" />
-                <span className="h-2 w-2 rounded-full bg-yellow-400/60" />
-                <span className="h-2 w-2 rounded-full bg-green-400/60" />
-              </div>
-            </div>
-
-            <AnimatePresence mode="wait">
-              {mode === "ai" ? (
-                <motion.div
-                  key="chat"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-full"
-                >
-                  <ChatSandbox />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="cad"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-full"
-                >
-                  <CadSandbox />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* Floating Dashboard */}
+          <FloatingDashboard />
         </div>
       </div>
     </section>
   );
 }
 
-/* -------------------- CHAT SANDBOX -------------------- */
-const SCRIPT = [
-  { from: "user", text: "Forecast Q3 revenue for the EMEA region." },
-  { from: "bot", text: "Analyzing 18 months of pipeline data..." },
-  { from: "bot", text: "Projected Q3 EMEA revenue: €14.2M (+22.6% YoY). Confidence 94%." },
-  { from: "user", text: "Draft a summary for the board." },
-  { from: "bot", text: "Done. Generated 1-page brief with charts. Ready to send." },
-];
-
-function ChatSandbox() {
-  const [messages, setMessages] = useState<{ from: string; text: string }[]>([]);
-  const [typing, setTyping] = useState("");
-  const [idx, setIdx] = useState(0);
+/* -------------------- FLOATING DASHBOARD ANIMATION -------------------- */
+function FloatingDashboard() {
+  const [activeChat, setActiveChat] = useState(0);
+  const messages = [
+    { q: "How many quizzes were auto-graded today?", a: "1,284 quizzes scored in 42s" },
+    { q: "Forecast Q3 revenue for EMEA.", a: "€14.2M projected · 94% confidence" },
+    { q: "Top risk in operations today?", a: "Inventory drift in 3 warehouses" },
+  ];
 
   useEffect(() => {
-    if (idx >= SCRIPT.length) {
-      const t = setTimeout(() => {
-        setMessages([]);
-        setIdx(0);
-      }, 3500);
-      return () => clearTimeout(t);
-    }
-    const msg = SCRIPT[idx];
-    if (msg.from === "user") {
-      const t = setTimeout(() => {
-        setMessages((m) => [...m, msg]);
-        setIdx((i) => i + 1);
-      }, 800);
-      return () => clearTimeout(t);
-    }
-    // bot types
-    let i = 0;
-    setTyping("");
-    const interval = setInterval(() => {
-      i++;
-      setTyping(msg.text.slice(0, i));
-      if (i >= msg.text.length) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setMessages((m) => [...m, msg]);
-          setTyping("");
-          setIdx((x) => x + 1);
-        }, 400);
-      }
-    }, 22);
-    return () => clearInterval(interval);
-  }, [idx]);
-
-  return (
-    <div className="flex h-[calc(100%-2rem)] flex-col">
-      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
-        <div
-          className="flex h-8 w-8 items-center justify-center rounded-lg"
-          style={{ background: `${CYAN}20`, color: CYAN }}
-        >
-          <MessageSquare className="h-4 w-4" />
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-white">Quorbit AI</div>
-          <div className="flex items-center gap-1 text-[10px] text-white/40">
-            <span className="h-1.5 w-1.5 rounded-full bg-green-400" /> online
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-1 space-y-3 overflow-hidden py-4">
-        <AnimatePresence>
-          {messages.map((m, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 8, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 24 }}
-              className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}
-            >
-              <div
-                className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs ${
-                  m.from === "user"
-                    ? "bg-white/10 text-white"
-                    : "text-[#030712]"
-                }`}
-                style={m.from === "bot" ? { backgroundColor: CYAN } : {}}
-              >
-                {m.text}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {typing && (
-          <div className="flex justify-start">
-            <div
-              className="max-w-[80%] rounded-2xl px-3.5 py-2 text-xs text-[#030712]"
-              style={{ backgroundColor: CYAN }}
-            >
-              {typing}
-              <span className="ml-0.5 inline-block h-3 w-0.5 animate-pulse bg-[#030712]" />
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
-        <input
-          disabled
-          placeholder="Ask Quorbit anything..."
-          className="flex-1 bg-transparent text-xs text-white/60 outline-none"
-        />
-        <Send className="h-4 w-4" style={{ color: CYAN }} />
-      </div>
-    </div>
-  );
-}
-
-/* -------------------- CAD SANDBOX -------------------- */
-function CadSandbox() {
-  const [tick, setTick] = useState(0);
-  useEffect(() => {
-    const i = setInterval(() => setTick((t) => t + 1), 4200);
+    const i = setInterval(() => setActiveChat((v) => (v + 1) % messages.length), 4200);
     return () => clearInterval(i);
   }, []);
 
-  const path =
-    "M 30 40 L 120 40 L 120 90 L 200 90 L 200 40 L 290 40 L 290 140 L 230 140 L 230 200 L 290 200 L 290 280 L 180 280 L 180 230 L 120 230 L 120 280 L 30 280 L 30 180 L 90 180 L 90 130 L 30 130 Z";
-
   return (
-    <div className="relative h-[calc(100%-2rem)]">
-      <div className="absolute left-0 top-0 z-10 flex items-center gap-3 text-[10px] text-white/50">
-        <span className="flex items-center gap-1"><Zap className="h-3 w-3" style={{ color: CORAL }} />Toolpath</span>
-        <span>Yield: <span style={{ color: CORAL }}>96.3%</span></span>
-        <span>Cuts: 24</span>
-      </div>
+    <div className="relative h-[520px] w-full" style={{ perspective: "1400px" }}>
+      {/* Ambient glow */}
+      <div
+        className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${CYAN}40, transparent 65%)`,
+          filter: "blur(40px)",
+        }}
+      />
 
-      <svg key={tick} viewBox="0 0 320 320" className="h-full w-full">
-        <defs>
-          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
-          </pattern>
-          <linearGradient id="laserGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor={CORAL} />
-            <stop offset="100%" stopColor="#FFB199" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2.5" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-        </defs>
+      {/* Floating active students card (top-left) */}
+      <motion.div
+        initial={{ opacity: 0, x: -40, y: -10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3, type: "spring", stiffness: 90 }}
+        className="absolute left-0 top-12 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          className="rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}50` }}
+        >
+          <div className="text-[10px] uppercase tracking-wider text-white/50">Active Users</div>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="text-2xl font-black text-white">12,480</span>
+            <span className="text-xs font-semibold" style={{ color: CYAN }}>+18.2%</span>
+          </div>
+        </motion.div>
+      </motion.div>
 
-        <rect width="320" height="320" fill="url(#grid)" />
+      {/* Floating engagement card (top-right) */}
+      <motion.div
+        initial={{ opacity: 0, x: 40, y: -10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 90 }}
+        className="absolute right-0 top-4 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}50` }}
+        >
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-full"
+            style={{ background: `${CYAN}25` }}
+          >
+            <Activity className="h-4 w-4" style={{ color: CYAN }} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/50">Engagement</div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-black text-white">94.6%</span>
+              <span className="text-[10px] font-semibold" style={{ color: CYAN }}>+4.1%</span>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
 
-        {/* sheet outline */}
-        <rect x="20" y="20" width="280" height="280" fill="none" stroke="rgba(226,232,240,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+      {/* Tilted tablet dashboard */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, rotateX: 50 }}
+        whileInView={{ opacity: 1, scale: 1, rotateX: 42 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute left-1/2 top-1/2 z-10 h-[340px] w-[480px] -translate-x-1/2 -translate-y-1/2"
+        style={{ transformStyle: "preserve-3d", rotateZ: "-8deg" } as React.CSSProperties}
+      >
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="relative h-full w-full rounded-[28px] border border-white/15 bg-gradient-to-br from-[#0a1628] to-[#04080f] p-4"
+          style={{
+            boxShadow: `0 0 60px ${CYAN}40, 0 0 120px ${CYAN}20, inset 0 0 30px rgba(0,0,0,0.6)`,
+          }}
+        >
+          {/* Dashboard grid mini-charts */}
+          <div className="grid h-full grid-cols-3 grid-rows-3 gap-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 + i * 0.08 }}
+                className="rounded-lg border border-white/5 bg-white/[0.03] p-2"
+                style={{ gridColumn: i === 0 ? "span 2" : "span 1", gridRow: i === 0 ? "span 1" : "span 1" }}
+              >
+                <div className="mb-1 h-1 w-8 rounded-full bg-white/10" />
+                <MiniChart seed={i} />
+              </motion.div>
+            ))}
+            <div className="col-span-3 row-span-1 flex items-center justify-around rounded-lg border border-white/5 bg-white/[0.03] px-3">
+              {[0.5, 0.8, 0.3, 0.9, 0.6, 0.7, 0.4].map((h, i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 rounded-sm"
+                  style={{ background: `linear-gradient(180deg, ${CYAN}, ${CYAN}40)` }}
+                  initial={{ height: 0 }}
+                  whileInView={{ height: `${h * 100}%` }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + i * 0.05, duration: 0.6, ease: "easeOut" }}
+                />
+              ))}
+            </div>
+          </div>
 
-        {/* nested shapes */}
-        <path
-          d={path}
-          fill={`${CORAL}10`}
-          stroke="url(#laserGrad)"
-          strokeWidth="1.5"
-          filter="url(#glow)"
-        />
+          {/* Edge glow */}
+          <div
+            className="pointer-events-none absolute -inset-1 rounded-[32px]"
+            style={{
+              background: `linear-gradient(135deg, ${CYAN}30, transparent 40%, transparent 60%, ${CYAN}30)`,
+              filter: "blur(20px)",
+              opacity: 0.6,
+              zIndex: -1,
+            }}
+          />
+        </motion.div>
+      </motion.div>
 
-        {/* animated cutting path */}
-        <motion.path
-          d={path}
-          fill="none"
-          stroke={CORAL}
-          strokeWidth="2.2"
-          filter="url(#glow)"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 3.8, ease: "linear" }}
-        />
-
-        {/* laser head */}
-        <motion.circle
-          r="4"
-          fill="#fff"
-          filter="url(#glow)"
-          initial={{ offsetDistance: "0%" }}
-          animate={{ offsetDistance: "100%" }}
-          transition={{ duration: 3.8, ease: "linear" }}
-          style={{ offsetPath: `path("${path}")` } as React.CSSProperties}
-        />
-      </svg>
+      {/* Floating AI assistant chat (bottom-right) */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.7, type: "spring", stiffness: 90 }}
+        className="absolute bottom-2 right-0 z-30 w-[260px]"
+      >
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+          className="rounded-2xl border border-white/15 bg-white/[0.06] p-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}60` }}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <div
+              className="flex h-7 w-7 items-center justify-center rounded-full"
+              style={{ background: `${CYAN}30` }}
+            >
+              <Bot className="h-3.5 w-3.5" style={{ color: CYAN }} />
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-white">Quorbit Assistant</div>
+              <div className="flex items-center gap-1 text-[9px] text-white/50">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: CYAN, boxShadow: `0 0 6px ${CYAN}` }} />
+                Online · AI
+              </div>
+            </div>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeChat}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="rounded-lg bg-white/[0.04] px-2.5 py-2 text-[11px] text-white/80">
+                {messages[activeChat].q}
+              </div>
+              <div
+                className="mt-1.5 rounded-lg px-2.5 py-2 text-[11px] font-medium"
+                style={{ background: `${CYAN}18`, color: CYAN }}
+              >
+                {messages[activeChat].a}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
+
+function MiniChart({ seed }: { seed: number }) {
+  const points = Array.from({ length: 12 }).map((_, i) => {
+    const v = 50 + Math.sin((i + seed) * 0.9) * 22 + Math.cos(i * 0.4 + seed) * 10;
+    return `${(i / 11) * 100},${100 - v}`;
+  });
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-[calc(100%-8px)] w-full">
+      <defs>
+        <linearGradient id={`mg-${seed}`} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={CYAN} stopOpacity="0.5" />
+          <stop offset="100%" stopColor={CYAN} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.polyline
+        points={points.join(" ")}
+        fill="none"
+        stroke={CYAN}
+        strokeWidth="1.5"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, delay: 0.3 + seed * 0.1 }}
+      />
+      <polygon
+        points={`0,100 ${points.join(" ")} 100,100`}
+        fill={`url(#mg-${seed})`}
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
+
 
 /* -------------------- PROJECTS -------------------- */
 type ProjectTier = {
@@ -1206,7 +1160,7 @@ function WhyUs() {
     {
       icon: Sparkles,
       title: "Composable by Design",
-      desc: "Mix AI and CAD modules through a single API surface. Build once, run anywhere.",
+      desc: "Mix AI, data and automation modules through a single API surface. Build once, run anywhere.",
       tone: CORAL,
       span: "md:col-span-1",
     },
@@ -1285,7 +1239,7 @@ function ContactFooter() {
               </span>
             </h2>
             <p className="mt-4 max-w-md text-white/60">
-              Tell us about your stack. We'll show you what an integrated AI + CAD platform looks like in production.
+              Tell us about your stack. We'll show you what a unified AI platform looks like in production.
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
               <Mail className="h-4 w-4" style={{ color: CYAN }} />
@@ -1358,11 +1312,12 @@ function ContactFooter() {
         <div className="mt-24 grid grid-cols-2 gap-8 border-t border-white/10 pt-12 md:grid-cols-5">
           <div className="col-span-2">
             <div className="flex items-center gap-2">
-              <div className="relative h-8 w-8">
-                <div className="absolute inset-0 rounded-lg" style={{ background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`, filter: "blur(6px)", opacity: 0.7 }} />
-                <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
-                  <span className="text-sm font-black text-white">Q</span>
-                </div>
+              <div className="relative h-9 w-9">
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{ background: `radial-gradient(circle, ${CYAN}80, transparent 70%)`, filter: "blur(8px)" }}
+                />
+                <img src={quorbitLogo.url} alt="Quorbit Labs" className="relative h-9 w-9 rounded-md object-cover" />
               </div>
               <span className="text-sm font-bold tracking-[0.2em] text-white">
                 QUORBIT<span style={{ color: CYAN }}>·</span>LABS
@@ -1393,7 +1348,7 @@ function ContactFooter() {
           </div>
 
           {[
-            { h: "Platform", l: ["AI Suite", "CAD Studio", "AIMS", "API"] },
+            { h: "Platform", l: ["AI Suite", "AIMS", "Insights", "API"] },
             { h: "Company", l: ["About", "Careers", "Press", "Contact"] },
             { h: "Resources", l: ["Docs", "Changelog", "Status", "Security"] },
           ].map((col) => (
