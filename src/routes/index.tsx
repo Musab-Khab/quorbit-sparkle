@@ -29,11 +29,11 @@ export const Route = createFileRoute("/")({
   component: QuorbitLanding,
   head: () => ({
     meta: [
-      { title: "Quorbit Labs — Intelligent AI. Precision CAD." },
+      { title: "Quorbit Labs — Intelligent AI. Autonomous Modules." },
       {
         name: "description",
         content:
-          "Quorbit Labs unifies conversational AI, business intelligence and algorithmic CAD automation into one premium enterprise platform.",
+          "Quorbit Labs unifies conversational AI, business intelligence and autonomous modules into one premium enterprise platform.",
       },
     ],
   }),
