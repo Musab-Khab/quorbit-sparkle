@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import quorbitLogo from "@/assets/quorbit-logo.asset.json";
 import {
   Bot,
   Cpu,
