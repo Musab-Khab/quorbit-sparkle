@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import quorbitLogo from "@/assets/quorbit-logo.asset.json";
 import {
   Bot,
-  Cpu,
   Sparkles,
   Layers,
   ShieldCheck,
@@ -18,8 +17,6 @@ import {
   Github,
   Instagram,
   Send,
-  MessageSquare,
-  Scissors,
   Activity,
   ExternalLink,
 } from "lucide-react";
