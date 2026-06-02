@@ -1347,7 +1347,7 @@ function ContactFooter() {
           </div>
 
           {[
-            { h: "Platform", l: ["AI Suite", "CAD Studio", "AIMS", "API"] },
+            { h: "Platform", l: ["AI Suite", "AIMS", "Insights", "API"] },
             { h: "Company", l: ["About", "Careers", "Press", "Contact"] },
             { h: "Resources", l: ["Docs", "Changelog", "Status", "Security"] },
           ].map((col) => (
