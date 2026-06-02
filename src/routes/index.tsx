@@ -246,12 +246,9 @@ function Hero() {
   );
 }
 
-/* -------------------- PRODUCT SUITE + SANDBOX -------------------- */
-type Mode = "ai" | "cad";
-
+/* -------------------- PRODUCT SUITE + FLOATING DASHBOARD -------------------- */
 function ProductSuite() {
-  const [mode, setMode] = useState<Mode>("ai");
-  const accent = mode === "ai" ? CYAN : CORAL;
+  const accent = CYAN;
 
   const aiCards = [
     {
@@ -264,26 +261,17 @@ function ProductSuite() {
       title: "AIMS Business Modules",
       desc: "Autonomous Intelligence Management — finance, ops, HR, all orchestrated by AI.",
     },
-  ];
-  const cadCards = [
     {
-      icon: Cpu,
-      title: "AutoCAD Toolpath Optimization",
-      desc: "Cut machining cycles by up to 38% with adaptive feed-rate and trajectory planning.",
-    },
-    {
-      icon: Scissors,
-      title: "Algorithmic Nesting Engine",
-      desc: "Genetic-algorithm sheet nesting that maximizes material yield to 96%+.",
+      icon: Gauge,
+      title: "Real-time Insights Engine",
+      desc: "Live KPIs, anomaly detection and predictive scoring across every workflow.",
     },
   ];
-
-  const cards = mode === "ai" ? aiCards : cadCards;
 
   return (
-    <section id="platform" style={{scrollMarginTop:"6rem"}} className="relative px-6 py-32">
+    <section id="platform" style={{ scrollMarginTop: "6rem" }} className="relative px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
+        <div className="mb-16 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -293,120 +281,268 @@ function ProductSuite() {
             The Core Engine
           </motion.h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Two suites. One platform. Flip the switch to see how Quorbit adapts.
+            One AI-native control plane orchestrating every module of your business.
           </p>
         </div>
 
-        {/* Toggle */}
-        <div className="mb-12 flex justify-center">
-          <div className="relative flex rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur-md">
-            {(["ai", "cad"] as Mode[]).map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className="relative z-10 px-6 py-2.5 text-sm font-semibold transition-colors"
-                style={{ color: mode === m ? "#030712" : "rgba(255,255,255,0.7)" }}
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+          {/* Feature cards */}
+          <div className="grid grid-cols-1 gap-5">
+            {aiCards.map((c, i) => (
+              <motion.div
+                key={c.title}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 110, damping: 18 }}
+                whileHover={{ y: -4 }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
               >
-                {mode === m && (
-                  <motion.div
-                    layoutId="mode-pill"
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    className="absolute inset-0 rounded-xl"
-                    style={{ backgroundColor: m === "ai" ? CYAN : CORAL }}
-                  />
-                )}
-                <span className="relative">
-                  {m === "ai" ? "AI Business Suite" : "CAD Automation Studio"}
-                </span>
-              </button>
+                <div
+                  className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
+                  style={{ background: accent }}
+                />
+                <div
+                  className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{ background: `${accent}20`, color: accent }}
+                >
+                  <c.icon className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-bold text-white">{c.title}</h3>
+                <p className="mt-2 text-sm text-white/60">{c.desc}</p>
+              </motion.div>
             ))}
           </div>
-        </div>
 
-        {/* Cards + Sandbox */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={mode}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.4 }}
-              className="grid grid-cols-1 gap-5"
-            >
-              {cards.map((c, i) => (
-                <motion.div
-                  key={c.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
-                  whileHover={{ y: -4 }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
-                >
-                  <div
-                    className="absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity group-hover:opacity-40"
-                    style={{ background: accent }}
-                  />
-                  <div
-                    className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
-                    style={{ background: `${accent}20`, color: accent }}
-                  >
-                    <c.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white">{c.title}</h3>
-                  <p className="mt-2 text-sm text-white/60">{c.desc}</p>
-                  <div
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold"
-                    style={{ color: accent }}
-                  >
-                    Learn more <ArrowRight className="h-3.5 w-3.5" />
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Sandbox */}
-          <div className="relative h-[480px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent p-5 backdrop-blur-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-white/50">
-                <Activity className="h-3.5 w-3.5" style={{ color: accent }} />
-                Live Simulation Sandbox
-              </div>
-              <div className="flex gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-red-400/60" />
-                <span className="h-2 w-2 rounded-full bg-yellow-400/60" />
-                <span className="h-2 w-2 rounded-full bg-green-400/60" />
-              </div>
-            </div>
-
-            <AnimatePresence mode="wait">
-              {mode === "ai" ? (
-                <motion.div
-                  key="chat"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-full"
-                >
-                  <ChatSandbox />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="cad"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="h-full"
-                >
-                  <CadSandbox />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* Floating Dashboard */}
+          <FloatingDashboard />
         </div>
       </div>
     </section>
+  );
+}
+
+/* -------------------- FLOATING DASHBOARD ANIMATION -------------------- */
+function FloatingDashboard() {
+  const [activeChat, setActiveChat] = useState(0);
+  const messages = [
+    { q: "How many quizzes were auto-graded today?", a: "1,284 quizzes scored in 42s" },
+    { q: "Forecast Q3 revenue for EMEA.", a: "€14.2M projected · 94% confidence" },
+    { q: "Top risk in operations today?", a: "Inventory drift in 3 warehouses" },
+  ];
+
+  useEffect(() => {
+    const i = setInterval(() => setActiveChat((v) => (v + 1) % messages.length), 4200);
+    return () => clearInterval(i);
+  }, []);
+
+  return (
+    <div className="relative h-[520px] w-full" style={{ perspective: "1400px" }}>
+      {/* Ambient glow */}
+      <div
+        className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${CYAN}40, transparent 65%)`,
+          filter: "blur(40px)",
+        }}
+      />
+
+      {/* Floating active students card (top-left) */}
+      <motion.div
+        initial={{ opacity: 0, x: -40, y: -10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3, type: "spring", stiffness: 90 }}
+        className="absolute left-0 top-12 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          className="rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}50` }}
+        >
+          <div className="text-[10px] uppercase tracking-wider text-white/50">Active Users</div>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="text-2xl font-black text-white">12,480</span>
+            <span className="text-xs font-semibold" style={{ color: CYAN }}>+18.2%</span>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Floating engagement card (top-right) */}
+      <motion.div
+        initial={{ opacity: 0, x: 40, y: -10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 90 }}
+        className="absolute right-0 top-4 z-20"
+      >
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}50` }}
+        >
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-full"
+            style={{ background: `${CYAN}25` }}
+          >
+            <Activity className="h-4 w-4" style={{ color: CYAN }} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase tracking-wider text-white/50">Engagement</div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-black text-white">94.6%</span>
+              <span className="text-[10px] font-semibold" style={{ color: CYAN }}>+4.1%</span>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Tilted tablet dashboard */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, rotateX: 50 }}
+        whileInView={{ opacity: 1, scale: 1, rotateX: 42 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute left-1/2 top-1/2 z-10 h-[340px] w-[480px] -translate-x-1/2 -translate-y-1/2"
+        style={{ transformStyle: "preserve-3d", rotateZ: "-8deg" } as React.CSSProperties}
+      >
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="relative h-full w-full rounded-[28px] border border-white/15 bg-gradient-to-br from-[#0a1628] to-[#04080f] p-4"
+          style={{
+            boxShadow: `0 0 60px ${CYAN}40, 0 0 120px ${CYAN}20, inset 0 0 30px rgba(0,0,0,0.6)`,
+          }}
+        >
+          {/* Dashboard grid mini-charts */}
+          <div className="grid h-full grid-cols-3 grid-rows-3 gap-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 + i * 0.08 }}
+                className="rounded-lg border border-white/5 bg-white/[0.03] p-2"
+                style={{ gridColumn: i === 0 ? "span 2" : "span 1", gridRow: i === 0 ? "span 1" : "span 1" }}
+              >
+                <div className="mb-1 h-1 w-8 rounded-full bg-white/10" />
+                <MiniChart seed={i} />
+              </motion.div>
+            ))}
+            <div className="col-span-3 row-span-1 flex items-center justify-around rounded-lg border border-white/5 bg-white/[0.03] px-3">
+              {[0.5, 0.8, 0.3, 0.9, 0.6, 0.7, 0.4].map((h, i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 rounded-sm"
+                  style={{ background: `linear-gradient(180deg, ${CYAN}, ${CYAN}40)` }}
+                  initial={{ height: 0 }}
+                  whileInView={{ height: `${h * 100}%` }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + i * 0.05, duration: 0.6, ease: "easeOut" }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Edge glow */}
+          <div
+            className="pointer-events-none absolute -inset-1 rounded-[32px]"
+            style={{
+              background: `linear-gradient(135deg, ${CYAN}30, transparent 40%, transparent 60%, ${CYAN}30)`,
+              filter: "blur(20px)",
+              opacity: 0.6,
+              zIndex: -1,
+            }}
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Floating AI assistant chat (bottom-right) */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.7, type: "spring", stiffness: 90 }}
+        className="absolute bottom-2 right-0 z-30 w-[260px]"
+      >
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+          className="rounded-2xl border border-white/15 bg-white/[0.06] p-3 backdrop-blur-xl"
+          style={{ boxShadow: `0 20px 60px -20px ${CYAN}60` }}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <div
+              className="flex h-7 w-7 items-center justify-center rounded-full"
+              style={{ background: `${CYAN}30` }}
+            >
+              <Bot className="h-3.5 w-3.5" style={{ color: CYAN }} />
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-white">Quorbit Assistant</div>
+              <div className="flex items-center gap-1 text-[9px] text-white/50">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: CYAN, boxShadow: `0 0 6px ${CYAN}` }} />
+                Online · AI
+              </div>
+            </div>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeChat}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="rounded-lg bg-white/[0.04] px-2.5 py-2 text-[11px] text-white/80">
+                {messages[activeChat].q}
+              </div>
+              <div
+                className="mt-1.5 rounded-lg px-2.5 py-2 text-[11px] font-medium"
+                style={{ background: `${CYAN}18`, color: CYAN }}
+              >
+                {messages[activeChat].a}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+function MiniChart({ seed }: { seed: number }) {
+  const points = Array.from({ length: 12 }).map((_, i) => {
+    const v = 50 + Math.sin((i + seed) * 0.9) * 22 + Math.cos(i * 0.4 + seed) * 10;
+    return `${(i / 11) * 100},${100 - v}`;
+  });
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-[calc(100%-8px)] w-full">
+      <defs>
+        <linearGradient id={`mg-${seed}`} x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor={CYAN} stopOpacity="0.5" />
+          <stop offset="100%" stopColor={CYAN} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.polyline
+        points={points.join(" ")}
+        fill="none"
+        stroke={CYAN}
+        strokeWidth="1.5"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, delay: 0.3 + seed * 0.1 }}
+      />
+      <polygon
+        points={`0,100 ${points.join(" ")} 100,100`}
+        fill={`url(#mg-${seed})`}
+        opacity="0.7"
+      />
+    </svg>
   );
 }
 
