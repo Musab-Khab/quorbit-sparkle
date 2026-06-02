@@ -68,20 +68,26 @@ function Navbar() {
           scrolled ? "py-2 shadow-[0_10px_40px_-10px_rgba(0,240,255,0.25)]" : "py-3"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2">
-          <div className="relative h-8 w-8">
+        <a href="#top" className="flex items-center gap-2.5">
+          <motion.div
+            className="relative h-9 w-9"
+            animate={{ rotate: [0, 0] }}
+            whileHover={{ rotate: 12, scale: 1.08 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
             <div
-              className="absolute inset-0 rounded-lg"
+              className="absolute inset-0 rounded-full"
               style={{
-                background: `conic-gradient(from 0deg, ${CYAN}, ${CORAL}, ${CYAN})`,
-                filter: "blur(6px)",
-                opacity: 0.7,
+                background: `radial-gradient(circle, ${CYAN}80, transparent 70%)`,
+                filter: "blur(8px)",
               }}
             />
-            <div className="absolute inset-[2px] flex items-center justify-center rounded-md bg-[#030712]">
-              <span className="text-sm font-black text-white">Q</span>
-            </div>
-          </div>
+            <img
+              src={quorbitLogo.url}
+              alt="Quorbit Labs"
+              className="relative h-9 w-9 rounded-md object-cover"
+            />
+          </motion.div>
           <span className="text-sm font-bold tracking-[0.2em] text-white">
             QUORBIT<span style={{ color: CYAN }}>·</span>LABS
           </span>
