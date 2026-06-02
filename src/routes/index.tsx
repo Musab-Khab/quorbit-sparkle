@@ -1239,7 +1239,7 @@ function ContactFooter() {
               </span>
             </h2>
             <p className="mt-4 max-w-md text-white/60">
-              Tell us about your stack. We'll show you what an integrated AI + CAD platform looks like in production.
+              Tell us about your stack. We'll show you what a unified AI platform looks like in production.
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-white/70">
               <Mail className="h-4 w-4" style={{ color: CYAN }} />
