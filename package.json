@@ -4,14 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "homepage": "https://musab-khab.github.io/quorbit-sparkle",
-  "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "preview": "vite preview",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "deploy": "gh-pages -d dist"
+    "scripts": {
+    "dev": "tsx watch src/start.ts",
+    "build": "tanstack-start build",
+    "start": "tanstack-start start"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
