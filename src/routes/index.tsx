@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import quorbitLogo from "@/assets/quorbit-logo.asset.json";
+import quorbitLogo from "@/assets/quorbit-logo.jpg";
 import {
   Bot,
   Sparkles,
@@ -80,7 +80,7 @@ function Navbar() {
               }}
             />
             <img
-              src={quorbitLogo.url}
+              src={quorbitLogo}
               alt="Quorbit Labs"
               className="relative h-9 w-9 rounded-md object-cover"
             />
@@ -1317,7 +1317,7 @@ function ContactFooter() {
                   className="absolute inset-0 rounded-full"
                   style={{ background: `radial-gradient(circle, ${CYAN}80, transparent 70%)`, filter: "blur(8px)" }}
                 />
-                <img src={quorbitLogo.url} alt="Quorbit Labs" className="relative h-9 w-9 rounded-md object-cover" />
+                <img src={quorbitLogo} alt="Quorbit Labs" className="relative h-9 w-9 rounded-md object-cover" />
               </div>
               <span className="text-sm font-bold tracking-[0.2em] text-white">
                 QUORBIT<span style={{ color: CYAN }}>·</span>LABS
