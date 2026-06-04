@@ -3,7 +3,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "homepage": "https://musab-khab.github.io/quorbit-sparkle",
+  
     "scripts": {
     "dev": "tsx watch src/start.ts",
     "build": "npx tanstack-start build",
