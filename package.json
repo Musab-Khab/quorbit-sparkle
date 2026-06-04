@@ -1,13 +1,12 @@
 {
   "name": "tanstack_start_ts",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": ["src/lib/error-capture.ts"],
   "type": "module",
-  
-    "scripts": {
-    "dev": "tsx watch src/start.ts",
-    "build": "npx tanstack-start build",
-    "start": "npx tanstack-start start"
+  "scripts": {
+    "dev": "npx vite dev",
+    "build": "npx vite build",
+    "start": "npx vite preview"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
@@ -68,7 +67,6 @@
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "^1.7.0",
-    "@tanstack/start": "^1.120.20",
     "@types/node": "^22.16.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
